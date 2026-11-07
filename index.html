@@ -290,6 +290,8 @@ const CONFIG = {
       desc: "A 2-player fighting game on a rooftop, playable in the browser. Attacks, shields, knockouts and respawns, a CPU opponent, controller support, particles and sound. Built with AI help." },
     { year: "2025", name: "Weld List Builder", tags: "Python · Excel", hue: 205, scene: "weld",
       desc: "Pulled weld data out of 40 piping isometric drawings and combined it into one master weld list of over 400 welds, along with a combined equipment list." },
+    { year: "BUILD", name: "Programmable Brick Builds", tags: "Robotics · Block coding", hue: 50, scene: "lift",
+      desc: "Working machines built from LEGO and a programmable hub, including motorized elevators that move between floors on command. I build the mechanism, wire the motors and sensors, and code how it behaves." },
     { year: "MOD", name: "Better Enchanting", tags: "Java · Fabric", hue: 275, scene: "enchant",
       desc: "A Minecraft mod that reworks enchanting so it's more useful and less of a grind." },
     { year: "MOD", name: "More Mobs", tags: "Java · Fabric", hue: 20, scene: "mobs",
@@ -882,6 +884,37 @@ const SCENES = {
     cx.restore();
     if (p > 0.2 && p < 0.85) { cx.globalAlpha = Math.sin((p - 0.2) / 0.65 * Math.PI); txt(p < 0.5 ? "CORK 720" : "+3,750", x, y - 80, 22, "#0b0d14", 800, DISP, "center"); cx.globalAlpha = 1; }
     for (let k = 0; k < 30; k++) { const q = (t * 0.3 + hash(k, 2)) % 1; R(hash(k, 5) * W, q * H, 3, 3, "rgba(255,255,255,.8)"); }
+  },
+
+  lift(t, lt, W, H) {
+    R(0, 0, W, H, "#141824");
+    for (let x = 0; x < W; x += 32) for (let y = 0; y < H; y += 32) circ(x + 16, y + 16, 3, "rgba(255,255,255,.04)");
+    const sx = 250, sw = 170, top = 60, floors = 4, fh = (H - 120) / floors;
+    R(sx - 22, top - 20, 22, H - 80, "#d23b2f"); R(sx + sw, top - 20, 22, H - 80, "#d23b2f");
+    for (let y = top - 20; y < H - 100; y += 24) { circ(sx - 11, y + 12, 5, "#e8544a"); circ(sx + sw + 11, y + 12, 5, "#e8544a"); }
+    R(sx - 40, top - 44, sw + 80, 26, "#ffd23f");
+    for (let k = 0; k < 6; k++) circ(sx - 26 + k * 38, top - 50, 7, "#ffe27a");
+    for (let i = 0; i < floors; i++) {
+      const y = top + i * fh + fh;
+      R(sx + sw + 22, y - 10, 140, 14, "#3fa7ff");
+      txt(String(floors - i), sx + sw + 60, y - 18, 16, "#8890a8", 700);
+    }
+    const cyc = 8, ph = (t % cyc) / cyc, stops = [3, 1, 2, 0], seg = ph * stops.length, a = Math.floor(seg), b = (a + 1) % stops.length;
+    const f = seg - a, ease = f < 0.35 ? 0 : f > 0.85 ? 1 : (1 - Math.cos((f - 0.35) / 0.5 * Math.PI)) / 2;
+    const fy = i => top + i * fh + fh - 92, cy = fy(stops[a]) + (fy(stops[b]) - fy(stops[a])) * ease;
+    cx.strokeStyle = "#c3c8d8"; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(sx + sw / 2, top - 18); cx.lineTo(sx + sw / 2, cy); cx.stroke();
+    R(sx + 6, cy, sw - 12, 82, "#f2f2f2"); R(sx + 6, cy, sw - 12, 10, "#5a5f73");
+    for (let k = 0; k < 4; k++) circ(sx + 30 + k * 36, cy - 4, 6, "#ffffff");
+    R(sx + 40, cy + 22, 90, 50, "#7c8cff");
+    const hx = 60, hy = H - 230;
+    rr(hx, hy, 130, 150, 14); cx.fillStyle = "#f2f2f2"; cx.fill();
+    R(hx + 25, hy + 25, 80, 80, "#0b0d14");
+    const floor = (ease > 0.5 ? stops[b] : stops[a]);
+    const digit = String(floors - floor);
+    txt(digit, hx + 65, hy + 88, 58, "#ffd23f", 800, DISP, "center");
+    circ(hx + 65, hy + 128, 10, ease > 0 && ease < 1 ? "#5dff9d" : "#ffd23f");
+    cx.strokeStyle = "#2b3350"; cx.lineWidth = 6; cx.beginPath(); cx.moveTo(hx + 130, hy + 40); cx.bezierCurveTo(hx + 200, hy + 40, sx - 80, top + 20, sx - 22, top + 10); cx.stroke();
+    txt("when floor button pressed → move to floor " + digit, 40, H - 30, 15, "#9cffb0", 600);
   },
 
   blook(t, lt, W, H) {
