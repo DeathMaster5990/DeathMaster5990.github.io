@@ -27,6 +27,8 @@ canvas{display:block;outline:none}
 #trick.bad .name{color:var(--heat)}
 #prog{position:absolute;left:50%;transform:translateX(-50%);top:max(18px,env(safe-area-inset-top,0px));width:min(36vw,320px);height:6px;background:rgba(255,255,255,.3);border-radius:3px;overflow:hidden}
 #prog i{display:block;height:100%;width:0;background:var(--volt)}
+#restart{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));pointer-events:auto;font-size:13px;padding:8px 14px;background:rgba(11,13,20,.6);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:999px}
+@media (pointer:coarse){#restart{top:max(84px,env(safe-area-inset-top,0px));bottom:auto}}
 #hint{position:absolute;bottom:max(14px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);font-size:12px;color:rgba(255,255,255,.85);background:rgba(11,13,20,.45);padding:6px 12px;border-radius:999px;white-space:nowrap}
 #load{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);width:120px;height:6px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden;opacity:0}
 #load i{display:block;height:100%;width:0;background:#9cffb0}
@@ -58,6 +60,7 @@ button:focus-visible{outline:2px solid var(--volt);outline-offset:3px}
   <div class="tr"><span class="lbl">Speed</span><span class="big" id="speed">0</span><span class="lbl" id="time">0:00.0</span></div>
   <div id="trick"><div class="name"></div><div class="pts"></div></div>
   <div id="load"><i></i></div>
+  <button id="restart" type="button" title="Restart run (R)">↻ Restart</button>
   <div id="hint">A/D carve · W tuck · SPACE pop · air: A/D spin, W/S flip, Q/E grab</div>
 </div>
 <div id="touch">
@@ -281,12 +284,13 @@ hold("tL", "left"); hold("tR", "right"); hold("tJ", "pop"); hold("tF", "up"); ho
 
 let P, playing = false, score = 0, combo = 0, comboT = 0, runT = 0, bestTrick = { pts: 0, name: "" }, seen = {};
 function reset() {
-  P = { x: 0, z: -8, y: baseH(0, -8), yaw: 0, speed: 6, vy: 0, air: false, spin: 0, flip: 0, spin0: 0, airT: 0, grab: null, grabT: 0, crash: 0, load: 0, sw: false, lean: 0 };
+  P = { x: 0, z: -8, y: baseH(0, -8), yaw: 0, speed: 6, vy: 0, air: false, spin: 0, flip: 0, spin0: 0, airT: 0, grab: null, grabT: 0, crash: 0, ghost: 0, load: 0, sw: false, lean: 0 };
   score = 0; combo = 0; comboT = 0; runT = 0; seen = {}; bestTrick = { pts: 0, name: "" };
   $("end").hidden = true;
 }
 function begin() { reset(); playing = true; $("start").hidden = true; $("end").hidden = true; renderer.domElement.focus(); last = performance.now(); }
 $("go").onclick = begin; $("again").onclick = begin;
+$("restart").onclick = () => { if (playing) reset(); else begin(); renderer.domElement.focus(); };
 
 function popRelease() {
   if (!playing || !P || P.air || P.crash > 0) return;
@@ -346,10 +350,11 @@ function update(dt) {
   if (P.crash > 0) {
     P.crash -= dt;
     spinG.rotation.set(-1.4, P.spin, 0.6);
-    if (P.crash <= 0) { P.spin = 0; P.flip = 0; P.sw = false; P.yaw = 0; P.speed = 5; P.y = groundH(P.x, P.z); P.air = false; }
+    if (P.crash <= 0) { P.spin = 0; P.flip = 0; P.sw = false; P.yaw = 0; P.speed = 6; P.x -= Math.sign(P.x || 1) * 4; P.z -= 3; P.y = groundH(P.x, P.z); P.vy = 0; P.air = false; P.ghost = 1.5; }
     return;
   }
   runT += dt;
+  if (P.ghost > 0) P.ghost -= dt;
   const turn = (keys.left ? -1 : 0) + (keys.right ? 1 : 0);
   const dir = { x: Math.sin(P.yaw), z: -Math.cos(P.yaw) };
   if (!P.air) {
@@ -391,6 +396,7 @@ function update(dt) {
   if (Math.abs(P.x) > 60) { P.x = Math.sign(P.x) * 60; P.yaw *= 0.5; P.speed *= 0.9; }
   for (const t of trees) {
     if (Math.abs(t.z - P.z) > 2.5 || Math.abs(t.x - P.x) > 2.5) continue;
+    if (P.ghost > 0) break;
     if (Math.hypot(t.x - P.x, t.z - P.z) < 1.1 * t.s && P.y < baseH(t.x, t.z) + 6 * t.s) { crash("tree"); break; }
   }
   if (comboT > 0) { comboT -= dt; if (comboT <= 0) combo = 0; }
