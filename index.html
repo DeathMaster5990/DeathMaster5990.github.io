@@ -139,6 +139,15 @@ h2{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size
 .cover p{margin:0;color:var(--mute)}
 .arcade-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:13px;color:var(--mute)}
 @media (max-width:860px){.screen,.screen.tall{aspect-ratio:3/4}}
+.log{list-style:none;margin:0;padding:0;display:grid}
+.log li{display:grid;grid-template-columns:170px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--line)}
+.log time{font-family:var(--mono);font-size:13px;color:var(--volt);padding-top:2px}
+.log time b{display:block;color:var(--mute);font-weight:400}
+.log h3{margin:0 0 4px;font-size:18px;font-weight:600}
+.log p{margin:0;color:var(--mute);font-size:15px;line-height:1.5}
+.log li.more{display:none}
+.log.all li.more{display:grid}
+@media (max-width:860px){.log li{grid-template-columns:1fr;gap:6px}.log time b{display:inline;margin-left:8px}}
 .contact{padding-block:110px 60px}
 .big-mail{
   font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(34px,8vw,110px);line-height:.9;letter-spacing:-.04em;
@@ -173,7 +182,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border
 <div class="wrap">
   <nav>
     <div class="status"><span class="dot"></span><span id="status-text"></span></div>
-    <div class="links"><a href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a><a href="#work">Work</a><a href="#play">Arcade</a><a href="#stack">Stack</a><a href="#fishing">Fishing</a><a href="#contact">Contact</a></div>
+    <div class="links"><a href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a><a href="#work">Work</a><a href="#play">Arcade</a><a href="#stack">Stack</a><a href="#fishing">Fishing</a><a href="#log">Log</a><a href="#contact">Contact</a></div>
   </nav>
 
   <header class="hero">
@@ -259,6 +268,12 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border
       </ul></div>
       <p class="badge-key"><span class="dot-eagle"></span> Eagle-required</p>
     </div>
+  </section>
+
+  <section id="log">
+    <div class="sec-head"><h2>Update log</h2><span>what changed and when</span></div>
+    <ul class="log" id="log-list"></ul>
+    <div class="cta" style="margin-top:18px"><button class="btn" type="button" id="log-more">Show all updates</button></div>
   </section>
 
   <section class="contact" id="contact">
@@ -1081,6 +1096,36 @@ $("mail").addEventListener("click", () => {
   if (navigator.clipboard) navigator.clipboard.writeText(CONFIG.email).then(() => done("Email copied"), () => done(CONFIG.email));
   else done(CONFIG.email);
 });
+
+const LOG = [
+  ["Nov 7, 2026", "12:30 PM", "Update log", "Added this log so you can see every change to the site and when it happened."],
+  ["Nov 7, 2026", "12:19 PM", "Loop Lab music maker", "A music maker built into the Arcade: drum machine, bass, lead and keys synths, a pencil tool that turns drawn lines into notes in key, a real guitar tab editor with chord buttons, WAV export and share links."],
+  ["Nov 7, 2026", "11:15 AM", "Mobile friendly", "Swipeable menu on phones, the email now fits the screen, and project previews open right under the project you tap."],
+  ["Nov 7, 2026", "11:08 AM", "LEGO EV3 named", "The robotics project now names the LEGO Mindstorms EV3 brick."],
+  ["Nov 7, 2026", "11:07 AM", "String Light Repair", "New project: soldering ripped string lights back together."],
+  ["Nov 7, 2026", "11:06 AM", "LEGO EV3 Robotics", "New project: motorized elevators and other machines built and programmed with LEGO Mindstorms."],
+  ["Nov 7, 2026", "11:01 AM", "Hardware skills", "Added soldering and robotics to the Toolkit."],
+  ["Nov 7, 2026", "10:57 AM", "Cleanup", "Removed the Forsaken section to keep the site focused."],
+  ["Nov 7, 2026", "10:56 AM", "Fresh Tracks fixes", "Added a restart button and fixed getting stuck crashing into trees."],
+  ["Nov 7, 2026", "10:46 AM", "Forsaken milestones", "Added a Forsaken milestones card with Noli featured. Tweaked it a few times, then removed it at 10:57 AM."],
+  ["Nov 7, 2026", "10:43 AM", "Arcade", "Fresh Tracks, a 3D ski trick game, and Rooftop Rumble are now playable right on the site."],
+  ["Nov 7, 2026", "10:32 AM", "Scouts", "Second Class Scout, Troop 73, Bulls Patrol, plus earned and in-progress merit badges."],
+  ["Nov 7, 2026", "10:25 AM", "kushmehta.com", "The site moved to its own domain with HTTPS."],
+  ["Nov 7, 2026", "10:09 AM", "Fishing", "Added my 10 lb largemouth bass personal best with a photo."],
+  ["Nov 7, 2026", "10:05 AM", "Site launch", "Portfolio went live: projects, Minecraft mods, Clip It, Gigma Games, toolkit, contact and links."]
+];
+(() => {
+  const ul = document.getElementById("log-list"), SHOW = 6;
+  LOG.forEach(([d, tm, title, body], i) => {
+    const li = document.createElement("li"); if (i >= SHOW) li.className = "more";
+    const time = document.createElement("time"); time.textContent = d; const b = document.createElement("b"); b.textContent = tm; time.appendChild(b);
+    const div = document.createElement("div"), h = document.createElement("h3"), p = document.createElement("p");
+    h.textContent = title; p.textContent = body; div.append(h, p); li.append(time, div); ul.appendChild(li);
+  });
+  const btn = document.getElementById("log-more");
+  if (LOG.length <= SHOW) btn.hidden = true;
+  btn.addEventListener("click", () => { const all = ul.classList.toggle("all"); btn.textContent = all ? "Show fewer" : "Show all updates"; });
+})();
 </script>
 </body>
 </html>
