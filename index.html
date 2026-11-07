@@ -125,6 +125,18 @@ h2{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size
 .badge-key{margin:0;font-family:var(--mono);font-size:12px;color:var(--mute);display:flex;align-items:center;gap:8px}
 .dot-eagle{width:12px;height:12px;border-radius:50%;border:1px solid var(--heat);display:inline-block}
 @media (max-width:860px){.badge-row{grid-template-columns:1fr;gap:8px}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 12px}
+.tab{font-family:var(--mono);font-size:14px;padding:10px 16px;border:1px solid var(--line);background:transparent;color:var(--mute);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.screen{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border:1px solid var(--line);background:#05070c;overflow:hidden}
+.screen.tall{aspect-ratio:4/3}
+.screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.cover{position:absolute;inset:0;display:grid;place-items:center;padding:24px;background:radial-gradient(600px circle at 70% 20%,rgba(124,140,255,.25),transparent 60%),linear-gradient(160deg,#141a2c,#07090f)}
+.cover-in{display:grid;gap:12px;max-width:520px;justify-items:start}
+.cover h3{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(30px,5vw,56px);line-height:.9;letter-spacing:-.03em}
+.cover p{margin:0;color:var(--mute)}
+.arcade-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:13px;color:var(--mute)}
+@media (max-width:860px){.screen,.screen.tall{aspect-ratio:3/4}}
 .contact{padding-block:110px 60px}
 .big-mail{
   font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(34px,8vw,110px);line-height:.9;letter-spacing:-.04em;
@@ -155,7 +167,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border
 <div class="wrap">
   <nav>
     <div class="status"><span class="dot"></span><span id="status-text"></span></div>
-    <div class="links"><a href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a><a href="#work">Work</a><a href="rooftop-rumble/index.html" target="_blank" rel="noopener">Play ↗</a><a href="#stack">Stack</a><a href="#fishing">Fishing</a><a href="#contact">Contact</a></div>
+    <div class="links"><a href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a><a href="#work">Work</a><a href="#play">Arcade</a><a href="#stack">Stack</a><a href="#fishing">Fishing</a><a href="#contact">Contact</a></div>
   </nav>
 
   <header class="hero">
@@ -164,7 +176,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border
     <div class="hero-foot">
       <p id="tagline"></p>
       <div class="cta">
-        <a class="btn solid" href="#work">See the work</a>
+        <a class="btn solid" href="#play">▶ Play my games</a>
+        <a class="btn" href="#work">See the work</a>
         <a class="btn" href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
@@ -182,6 +195,28 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border
         <canvas id="pv" width="760" height="570"></canvas>
         <div class="cap"><b id="pv-name"></b><span id="pv-tags"></span></div>
       </div>
+    </div>
+  </section>
+
+  <section id="play">
+    <div class="sec-head"><h2>Arcade</h2><span>play right here</span></div>
+    <div class="tabs" role="tablist" aria-label="Games">
+      <button type="button" role="tab" class="tab" data-game="ski" aria-selected="true">Fresh Tracks</button>
+      <button type="button" role="tab" class="tab" data-game="rumble" aria-selected="false">Rooftop Rumble</button>
+    </div>
+    <div class="screen" id="screen">
+      <div class="cover" id="cover">
+        <div class="cover-in">
+          <div class="kicker" id="g-kick"></div>
+          <h3 id="g-title"></h3>
+          <p id="g-desc"></p>
+          <button class="btn solid" type="button" id="g-play">▶ Play</button>
+        </div>
+      </div>
+    </div>
+    <div class="arcade-foot">
+      <span id="g-keys"></span>
+      <div class="cta"><button class="btn" type="button" id="g-full">Fullscreen</button><a class="btn" id="g-open" href="ski/index.html" target="_blank" rel="noopener">New tab ↗</a></div>
     </div>
   </section>
 
@@ -247,6 +282,8 @@ const CONFIG = {
       desc: "A Minecraft Fabric mod for version 26.1 and up. Press \\ in game to open a menu that finds nearby structures, so you stop wandering around looking for them." },
     { year: "2026", name: "P&ID Equipment AI", tags: "Python · Gemini · Streamlit", hue: 225, scene: "pid",
       desc: "Upload engineering diagrams (P&IDs) as images or PDFs, and AI reads them and pulls out every piece of equipment: tag, name, size. Handles many files at once and exports a finished equipment list to Excel or CSV." },
+    { year: "2026", name: "Fresh Tracks", tags: "JavaScript · Three.js", hue: 205, scene: "ski", link: "ski/index.html", linkText: "Play it",
+      desc: "A 3D freeski trick game that runs in the browser. Carve down a 1.6 km run, hit kickers, and spin, flip and grab your way to a high score. Landing checks, combo multipliers, repeat-trick decay and a best-score save." },
     { year: "2026", name: "Rooftop Rumble", tags: "JavaScript · Canvas", hue: 330, scene: "rumble", link: "rooftop-rumble/index.html", linkText: "Play it",
       desc: "A 2-player fighting game on a rooftop, playable in the browser. Attacks, shields, knockouts and respawns, a CPU opponent, controller support, particles and sound. Built with AI help." },
     { year: "2025", name: "Weld List Builder", tags: "Python · Excel", hue: 205, scene: "weld",
@@ -825,6 +862,25 @@ const SCENES = {
     txt("PANIC", W - 101, H - 24, 15, "#fff", 800, MONO, "center");
   },
 
+  ski(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, H, "#5d9fe0", "#cfe6fa"));
+    cx.fillStyle = "#e9f2fb";
+    cx.beginPath(); cx.moveTo(0, 230); cx.lineTo(120, 150); cx.lineTo(230, 210); cx.lineTo(380, 110); cx.lineTo(520, 200); cx.lineTo(640, 140); cx.lineTo(W, 210); cx.lineTo(W, H); cx.lineTo(0, H); cx.fill();
+    cx.fillStyle = "#f7fbff";
+    cx.beginPath(); cx.moveTo(0, 260); cx.lineTo(W, 520); cx.lineTo(W, H); cx.lineTo(0, H); cx.closePath(); cx.fill();
+    const sy = x => 260 + x * (260 / W);
+    for (let k = 0; k < 7; k++) { const x = 40 + k * 120, y = sy(x) - 20; cx.fillStyle = "#24533a"; cx.beginPath(); cx.moveTo(x, y - 60); cx.lineTo(x - 20, y); cx.lineTo(x + 20, y); cx.fill(); }
+    const kx = 300, ky = sy(kx);
+    cx.fillStyle = "#e3edf9"; cx.beginPath(); cx.moveTo(kx - 90, sy(kx - 90)); cx.quadraticCurveTo(kx - 10, sy(kx - 10) + 4, kx, ky - 40); cx.lineTo(kx, ky); cx.closePath(); cx.fill();
+    R(kx - 3, ky - 42, 6, 6, "#7c8cff");
+    const p = (t * 0.45) % 1, x = kx + p * 360, y = ky - 40 - Math.sin(p * Math.PI) * 170 + p * 60;
+    cx.save(); cx.translate(x, y); cx.rotate(p * Math.PI * 2);
+    R(-34, 18, 68, 6, "#ff5d73"); R(-10, -6, 20, 26, "#2b3350"); R(-13, -34, 26, 30, "#7c8cff"); circ(0, -44, 11, "#f4f4f8"); R(-10, -46, 20, 5, "#ff9f43");
+    cx.restore();
+    if (p > 0.2 && p < 0.85) { cx.globalAlpha = Math.sin((p - 0.2) / 0.65 * Math.PI); txt(p < 0.5 ? "CORK 720" : "+3,750", x, y - 80, 22, "#0b0d14", 800, DISP, "center"); cx.globalAlpha = 1; }
+    for (let k = 0; k < 30; k++) { const q = (t * 0.3 + hash(k, 2)) % 1; R(hash(k, 5) * W, q * H, 3, 3, "rgba(255,255,255,.8)"); }
+  },
+
   blook(t, lt, W, H) {
     R(0, 0, W, H, "#1d1635");
     rr(70, 70, W - 140, 340, 18); cx.fillStyle = "#2b2150"; cx.fill();
@@ -856,6 +912,35 @@ function draw(time) {
   requestAnimationFrame(draw);
 }
 select(0); requestAnimationFrame(draw);
+const GAMES = {
+  ski: { title: "Fresh Tracks", kick: "3D ski trick game · Three.js", src: "ski/index.html", tall: false,
+    desc: "Bomb a 1.6 km run full of kickers. Spin, flip and grab, then stomp the landing to stack your combo.",
+    keys: "A/D carve & spin · W tuck/frontflip · S brake/backflip · SPACE pop · Q/E grab" },
+  rumble: { title: "Rooftop Rumble", kick: "2-player fighter · Canvas", src: "rooftop-rumble/index.html", tall: true,
+    desc: "Knock your rival off the roof. Attacks, shields and knockouts, against a friend or the CPU.",
+    keys: "Controls are shown in the game · controller supported" }
+};
+let gameKey = "ski";
+function showGame(k) {
+  gameKey = k; const g = GAMES[k];
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t.dataset.game === k)));
+  const sc = $("screen"); sc.querySelector("iframe")?.remove(); sc.classList.toggle("tall", g.tall);
+  $("cover").hidden = false;
+  $("g-kick").textContent = g.kick; $("g-title").textContent = g.title; $("g-desc").textContent = g.desc;
+  $("g-keys").textContent = g.keys; $("g-open").href = g.src;
+}
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => showGame(t.dataset.game)));
+$("g-play").addEventListener("click", () => {
+  const f = document.createElement("iframe");
+  f.src = GAMES[gameKey].src; f.title = GAMES[gameKey].title; f.allow = "fullscreen; gamepad";
+  $("screen").appendChild(f); $("cover").hidden = true;
+  f.addEventListener("load", () => { try { f.contentWindow.focus(); } catch (e) {} f.focus(); });
+});
+$("g-full").addEventListener("click", () => {
+  const sc = $("screen");
+  if (sc.requestFullscreen) sc.requestFullscreen().catch(() => {});
+});
+showGame("ski");
 
 addEventListener("pointermove", e => {
   document.body.style.setProperty("--mx", e.clientX + "px");
