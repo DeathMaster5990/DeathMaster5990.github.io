@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kush Mehta — Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one dark sheet. Giant reactive name, then a project index you scan like a track list, then contact. */
+:root{
+  --ink:#0b0d14;
+  --panel:#141824;
+  --line:#262c3d;
+  --paper:#e8ebf4;
+  --mute:#8890a8;
+  --volt:#7c8cff;
+  --heat:#ff5d73;
+  --display:"Unbounded",system-ui,sans-serif;
+  --body:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--ink);color:var(--paper);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  overflow-x:hidden;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(520px circle at var(--mx,70%) var(--my,20%),rgba(124,140,255,.14),transparent 60%),
+    linear-gradient(var(--line) 1px,transparent 1px) 0 0/48px 48px,
+    linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/48px 48px;
+  opacity:.55;
+  mask-image:linear-gradient(#000 0%,transparent 85%);
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--volt);outline-offset:3px}
+
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:22px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+nav .links{display:flex;gap:22px;flex-wrap:wrap}
+nav a{text-decoration:none;color:var(--mute);transition:color .2s}
+nav a:hover{color:var(--paper)}
+.status{display:flex;align-items:center;gap:8px;color:var(--mute)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--heat);box-shadow:0 0 0 0 var(--heat);animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,93,115,.6)}100%{box-shadow:0 0 0 10px rgba(255,93,115,0)}}
+
+.hero{padding-block:8vh 6vh}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--volt);letter-spacing:.12em;text-transform:uppercase}
+h1{
+  font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:.86;letter-spacing:-.04em;
+  font-size:clamp(56px,14vw,190px);margin:18px 0 0;user-select:none;
+}
+h1 .row{display:block;white-space:nowrap}
+h1 span.ch{display:inline-block;font-variation-settings:"wght" 800;transition:font-variation-settings .25s,color .25s}
+h1 .outline{color:transparent;-webkit-text-stroke:2px var(--paper)}
+.hero-foot{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;margin-top:40px;align-items:end}
+.hero-foot p{margin:0;max-width:52ch;font-size:clamp(18px,2vw,22px);color:var(--paper)}
+.hero-foot p em{font-style:normal;color:var(--volt)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.btn{
+  font-family:var(--mono);font-size:14px;text-decoration:none;padding:14px 20px;border:1px solid var(--line);
+  background:var(--panel);color:var(--paper);cursor:pointer;transition:transform .2s,border-color .2s,background .2s;
+}
+.btn:hover{border-color:var(--volt);transform:translate(-3px,-3px);box-shadow:3px 3px 0 var(--volt)}
+.btn.solid{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+
+.ticker{position:relative;z-index:1;border-block:1px solid var(--line);overflow:hidden;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-block:14px;background:var(--ink)}
+.ticker-track{display:flex;gap:48px;width:max-content;animation:slide 30s linear infinite;font-family:var(--display);font-weight:300;font-size:22px;text-transform:uppercase;color:var(--mute)}
+.ticker-track b{color:var(--heat);font-weight:400}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+section{padding-block:96px 24px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:8px}
+h2{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:clamp(28px,4vw,44px);margin:0;letter-spacing:-.02em;text-wrap:balance}
+.sec-head span{font-family:var(--mono);font-size:13px;color:var(--mute)}
+
+.projects{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start}
+.list{list-style:none;margin:0;padding:0}
+.proj{border-bottom:1px solid var(--line)}
+.proj button{
+  all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:70px 1fr auto;gap:16px;align-items:baseline;padding:22px 4px;
+}
+.proj .yr{font-family:var(--mono);font-size:13px;color:var(--mute)}
+.proj .name{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.6vw,30px);text-transform:uppercase;letter-spacing:-.01em;transition:transform .25s,color .25s}
+.proj .tags{font-family:var(--mono);font-size:12px;color:var(--mute);text-align:right}
+.proj .desc{display:none;padding:0 4px 22px 86px;color:var(--mute);max-width:62ch}
+.proj.open .desc{display:block}
+.plink{color:var(--volt);font-family:var(--mono);font-size:14px;white-space:nowrap}
+.plink:hover{color:var(--heat)}
+.proj button:hover .name,.proj.open .name{color:var(--volt);transform:translateX(10px)}
+.preview{position:sticky;top:24px;border:1px solid var(--line);background:var(--panel)}
+.preview canvas{display:block;width:100%;aspect-ratio:4/3;max-width:100%}
+.preview .cap{display:flex;justify-content:space-between;gap:12px;padding:14px 16px;font-family:var(--mono);font-size:12px;color:var(--mute);border-top:1px solid var(--line)}
+.preview .cap b{color:var(--paper);font-weight:600}
+
+.stack{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px}
+.cell{background:var(--ink);padding:22px 20px;min-width:0}
+.cell h3{margin:0 0 10px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--volt);font-weight:600}
+.cell p{margin:0;font-size:16px}
+
+.fish{display:grid;grid-template-columns:1.35fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px}
+.fish canvas{display:block;width:100%;height:auto;max-width:100%;background:#08201f}
+.fish-stat{background:var(--ink);padding:28px;display:flex;flex-direction:column;justify-content:center;gap:12px;min-width:0}
+.pb{font-family:var(--display);font-weight:800;font-size:clamp(72px,9vw,128px);line-height:.85;letter-spacing:-.05em;color:var(--paper)}
+.pb span{font-size:.32em;font-weight:500;color:var(--volt);letter-spacing:0;margin-left:8px}
+.fish-stat p{margin:0;color:var(--mute);max-width:40ch}
+.fish-stat dl{margin:8px 0 0;display:grid;gap:8px;font-family:var(--mono);font-size:13px}
+.fish-stat dl div{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:8px}
+.fish-stat dt{color:var(--mute)}
+.fish-stat dd{margin:0;color:var(--paper)}
+@media (max-width:860px){.fish{grid-template-columns:1fr}}
+.contact{padding-block:110px 60px}
+.big-mail{
+  font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(34px,8vw,110px);line-height:.9;letter-spacing:-.04em;
+  background:none;border:0;color:var(--paper);cursor:pointer;padding:0;text-align:left;margin-top:28px;display:block;
+}
+.big-mail:hover{color:var(--heat)}
+.copied{font-family:var(--mono);font-size:13px;color:var(--heat);min-height:20px;margin-top:12px}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);padding-block:24px 40px;font-family:var(--mono);font-size:12px;color:var(--mute)}
+
+@media (max-width:860px){
+  .hero-foot{grid-template-columns:1fr}
+  .cta{justify-content:flex-start}
+  .projects{grid-template-columns:1fr}
+  .preview{position:relative;top:0;order:-1}
+  .stack{grid-template-columns:repeat(2,1fr)}
+  .proj button{grid-template-columns:52px 1fr}
+  .proj .tags{display:none}
+  .proj .desc{padding-left:72px}
+  nav .links{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ticker-track,.dot{animation:none}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="status"><span class="dot"></span><span id="status-text"></span></div>
+    <div class="links"><a href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a><a href="#work">Work</a><a href="rooftop-rumble/index.html" target="_blank" rel="noopener">Play ↗</a><a href="#stack">Stack</a><a href="#fishing">Fishing</a><a href="#contact">Contact</a></div>
+  </nav>
+
+  <header class="hero">
+    <div class="kicker" id="kicker"></div>
+    <h1 id="name" aria-label=""></h1>
+    <div class="hero-foot">
+      <p id="tagline"></p>
+      <div class="cta">
+        <a class="btn solid" href="#work">See the work</a>
+        <a class="btn" href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+
+<div class="wrap">
+  <section id="work">
+    <div class="sec-head"><h2>Work &amp; ventures</h2><span id="count"></span></div>
+    <div class="projects">
+      <ul class="list" id="list"></ul>
+      <div class="preview" aria-hidden="true">
+        <canvas id="pv" width="760" height="570"></canvas>
+        <div class="cap"><b id="pv-name"></b><span id="pv-tags"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="sec-head"><h2>Toolkit</h2><span>what I reach for</span></div>
+    <div class="stack" id="stack-grid"></div>
+  </section>
+
+  <section id="fishing">
+    <div class="sec-head"><h2>Off the screen</h2><span>fishing · scouting</span></div>
+    <div class="fish">
+      <canvas id="fishcv" width="760" height="400" aria-label="Animated largemouth bass going after a lure"></canvas>
+      <div class="fish-stat">
+        <div class="kicker">Personal best</div>
+        <div class="pb">10<span>lb</span></div>
+        <p>Largemouth bass. A double-digit fish, the kind a lot of anglers chase their whole lives.</p>
+        <dl><div><dt>Species</dt><dd>Largemouth bass</dd></div><div><dt>Weight</dt><dd>10 lb</dd></div></dl>
+      </div>
+    </div>
+    <div class="stack scout">
+      <div class="cell"><h3>Scouting rank</h3><p>Second Class Scout</p></div>
+      <div class="cell"><h3>Troop</h3><p>Troop 73</p></div>
+      <div class="cell"><h3>Patrol</h3><p>Bulls Patrol</p></div>
+      <div class="cell"><h3>Merit badges</h3><p>Earning more every season</p></div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="kicker">Got something to build?</div>
+    <button class="big-mail" id="mail" type="button" title="Click to copy"></button>
+    <div class="cta" style="justify-content:flex-start;margin-top:24px"><a class="btn" id="mailto" href="#">Email me ↗</a><a class="btn" href="https://github.com/DeathMaster5990" target="_blank" rel="noopener">GitHub ↗</a><a class="btn" href="https://sites.google.com/view/gigmagames" target="_blank" rel="noopener">Gigma Games ↗</a><a class="btn" href="rooftop-rumble/index.html" target="_blank" rel="noopener">Play Rooftop Rumble ↗</a></div>
+    <div class="copied" id="copied" aria-live="polite"></div>
+  </section>
+
+  <footer><span id="foot-l"></span><span>Built by hand. No templates.</span></footer>
+</div>
+
+<script>
+const CONFIG = {
+  first: "Kush",
+  last: "Mehta",
+  role: "9th grader · founder of Clip It · Python · Java · Lua · modding",
+  status: "Shipping Minecraft mods",
+  tagline: "I build <em>tools that kill boring work</em>: AI that reads engineering drawings, scripts that turn messy spreadsheets into clean reports, and Roblox scripts and Minecraft mods that make games better.",
+  email: "kushisoninternet@gmail.com",
+  ticker: ["Python", "Java", "Lua", "Minecraft modding", "Roblox scripting", "JavaScript", "Gemini AI", "Streamlit", "pandas", "Jupyter", "p5.js"],
+  projects: [
+    { year: "2026", name: "Clip It", tags: "Founder · Business", hue: 185, scene: "clip",
+      desc: "My own business, started in 2026. Clip It fixes the irritation of wearing a school ID lanyard all day. I came up with the product, designed the brand, and pitched it." },
+    { year: "2025", name: "Gigma Games", tags: "Google Sites · Web", hue: 145, scene: "gigma", link: "https://sites.google.com/view/gigmagames", linkText: "Visit the site",
+      desc: "A games website I built and run on Google Sites, launched February 2025. Over 240 browser games sorted A to Z, regular update logs, a small team of co-CEOs and game testers, and a panic button." },
+    { year: "2026", name: "Structure Locator", tags: "Java · Fabric", hue: 140, scene: "locator", link: "https://github.com/DeathMaster5990/MinecraftMods-FABRIC", linkText: "Download the mod",
+      desc: "A Minecraft Fabric mod for version 26.1 and up. Press \\ in game to open a menu that finds nearby structures, so you stop wandering around looking for them." },
+    { year: "2026", name: "P&ID Equipment AI", tags: "Python · Gemini · Streamlit", hue: 225, scene: "pid",
+      desc: "Upload engineering diagrams (P&IDs) as images or PDFs, and AI reads them and pulls out every piece of equipment: tag, name, size. Handles many files at once and exports a finished equipment list to Excel or CSV." },
+    { year: "2026", name: "Rooftop Rumble", tags: "JavaScript · Canvas", hue: 330, scene: "rumble", link: "rooftop-rumble/index.html", linkText: "Play it",
+      desc: "A 2-player fighting game on a rooftop, playable in the browser. Attacks, shields, knockouts and respawns, a CPU opponent, controller support, particles and sound. Built with AI help." },
+    { year: "2025", name: "Weld List Builder", tags: "Python · Excel", hue: 205, scene: "weld",
+      desc: "Pulled weld data out of 40 piping isometric drawings and combined it into one master weld list of over 400 welds, along with a combined equipment list." },
+    { year: "MOD", name: "Better Enchanting", tags: "Java · Fabric", hue: 275, scene: "enchant",
+      desc: "A Minecraft mod that reworks enchanting so it's more useful and less of a grind." },
+    { year: "MOD", name: "More Mobs", tags: "Java · Fabric", hue: 20, scene: "mobs",
+      desc: "A Minecraft mod that adds new mobs to the world." },
+    { year: "MOD", name: "Ridable Mobs", tags: "Java · Fabric", hue: 95, scene: "ride",
+      desc: "A Minecraft mod that lets you ride mobs you normally can't." },
+    { year: "MOD", name: "Food Mod", tags: "Java · Fabric", hue: 45, scene: "food",
+      desc: "A Minecraft mod that adds new foods to the game." },
+    { year: "MOD", name: "Farming Mod", tags: "Java · Fabric", hue: 120, scene: "farm",
+      desc: "A Minecraft mod that expands farming with new crops and features." },
+    { year: "MOD", name: "Better Armor", tags: "Java · Fabric", hue: 220, scene: "armor",
+      desc: "A Minecraft mod that upgrades armor so it's worth crafting and actually protects you." },
+    { year: "MOD", name: "New Ores", tags: "Java · Fabric", hue: 175, scene: "ores",
+      desc: "A Minecraft mod that adds new ores to find underground." },
+    { year: "MOD", name: "New Dimension", tags: "Java · Fabric", hue: 290, scene: "dimension",
+      desc: "A Minecraft mod that adds a whole new dimension to travel to and explore." },
+    { year: "MOD", name: "New Tools", tags: "Java · Fabric", hue: 20, scene: "tools",
+      desc: "A Minecraft mod that adds new tools to the game." },
+    { year: "2025", name: "Pipe Takeoff Automation", tags: "Python · pandas · Jupyter", hue: 190, scene: "takeoff",
+      desc: "Takes a multi-sheet piping material takeoff, merges every sheet, parses lengths like 21'-7 1/8\" and rounds them up to whole feet, then builds a clean bill of materials and pivot table automatically. Also pulls master I/O lists out of PDFs." },
+    { year: "2023", name: "p5.js Art", tags: "JavaScript · p5.js", hue: 350, scene: "bear", link: "https://github.com/DeathMaster5990/KMbearp5js",
+      desc: "Where I started: drawing characters and scenes in code with p5.js, building them up shape by shape on a canvas." },
+    { year: "2023", name: "Blooket Hacks", tags: "JavaScript · Fork", hue: 260, scene: "blook", link: "https://github.com/DeathMaster5990/Blooket-Hacks",
+      desc: "Forked a set of Blooket browser scripts to dig into how a web game stores its state in JavaScript and what happens when you change it." }
+  ],
+  stack: [
+    ["Languages", "Python, Java, Lua, JavaScript, HTML, CSS"],
+    ["Data & AI", "pandas, Gemini API, Streamlit, Jupyter"],
+    ["Games & Creative", "Roblox Lua scripting, Minecraft Fabric mods, p5.js"],
+    ["Tools", "Git, GitHub, VS Code, Excel automation"]
+  ]
+};
+
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+document.title = CONFIG.first + " " + CONFIG.last + " — Portfolio";
+$("status-text").textContent = CONFIG.status;
+$("kicker").textContent = CONFIG.role;
+$("tagline").innerHTML = CONFIG.tagline;
+$("mail").textContent = CONFIG.email;
+$("mailto").href = "mailto:" + CONFIG.email;
+$("foot-l").textContent = "© " + new Date().getFullYear() + " " + CONFIG.first + " " + CONFIG.last;
+$("count").textContent = String(CONFIG.projects.length).padStart(2, "0") + " projects";
+
+const h1 = $("name");
+h1.setAttribute("aria-label", CONFIG.first + " " + CONFIG.last);
+[CONFIG.first, CONFIG.last].forEach((word, i) => {
+  const row = document.createElement("span");
+  row.className = "row" + (i === 1 ? " outline" : "");
+  row.setAttribute("aria-hidden", "true");
+  for (const c of word) {
+    const s = document.createElement("span");
+    s.className = "ch";
+    s.textContent = c;
+    row.appendChild(s);
+  }
+  h1.appendChild(row);
+});
+const chars = [...h1.querySelectorAll(".ch")];
+
+const t = CONFIG.ticker.map(x => x + " <b>✦</b>").join(" ");
+$("ticker").innerHTML = "<span>" + t + "</span><span>" + t + "</span>";
+
+$("stack-grid").innerHTML = CONFIG.stack.map(([h, p]) => `<div class="cell"><h3>${h}</h3><p>${p}</p></div>`).join("");
+
+const list = $("list");
+CONFIG.projects.forEach((p, i) => {
+  const li = document.createElement("li");
+  li.className = "proj" + (i === 0 ? " open" : "");
+  li.innerHTML = `<button type="button" aria-expanded="${i === 0}"><span class="yr">${p.year}</span><span class="name">${p.name}</span><span class="tags">${p.tags}</span></button><div class="desc">${p.desc}${p.link ? ` <a class="plink" href="${p.link}" target="_blank" rel="noopener">${p.linkText || "See it on GitHub"} ↗</a>` : ""}</div>`;
+  const b = li.querySelector("button");
+  b.addEventListener("mouseenter", () => select(i));
+  b.addEventListener("focus", () => select(i));
+  b.addEventListener("click", () => {
+    const open = li.classList.toggle("open");
+    b.setAttribute("aria-expanded", open);
+    select(i);
+  });
+  list.appendChild(li);
+});
+
+const cv = $("pv"), cx = cv.getContext("2d");
+let cur = 0, seed = 0;
+function select(i) {
+  if (i === cur && seed) return;
+  cur = i; seed = Math.random() * 1000; t0 = performance.now();
+  $("pv-name").textContent = CONFIG.projects[i].name;
+  $("pv-tags").textContent = CONFIG.projects[i].tags;
+}
+let t0 = performance.now();
+const MONO = '"JetBrains Mono", Consolas, monospace', DISP = 'Unbounded, system-ui, sans-serif';
+const logo = new Image();
+let logoBg = "#f8ecdc";
+logo.onload = () => {
+  try {
+    const o = document.createElement("canvas"); o.width = o.height = 4;
+    const g = o.getContext("2d"); g.drawImage(logo, 0, 0, 4, 4);
+    const d = g.getImageData(0, 0, 1, 1).data; logoBg = `rgb(${d[0]},${d[1]},${d[2]})`;
+  } catch (e) {}
+};
+logo.src = "clip-it.png";
+
+const R = (x, y, w, h, c) => { cx.fillStyle = c; cx.fillRect(x, y, w, h); };
+const hash = (a, b) => { const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return s - Math.floor(s); };
+function txt(s, x, y, size, c, weight, fam, align) {
+  cx.font = `${weight || 600} ${size}px ${fam || MONO}`; cx.fillStyle = c; cx.textAlign = align || "left"; cx.fillText(s, x, y);
+}
+function pix(rows, pal, x, y, s) {
+  rows.forEach((r, j) => { for (let i = 0; i < r.length; i++) { const c = pal[r[i]]; if (c) R(x + i * s, y + j * s, s, s, c); } });
+}
+function rr(x, y, w, h, r) {
+  cx.beginPath(); cx.moveTo(x + r, y); cx.arcTo(x + w, y, x + w, y + h, r); cx.arcTo(x + w, y + h, x, y + h, r);
+  cx.arcTo(x, y + h, x, y, r); cx.arcTo(x, y, x + w, y, r); cx.closePath();
+}
+function grad(y0, y1, a, b) { const g = cx.createLinearGradient(0, y0, 0, y1); g.addColorStop(0, a); g.addColorStop(1, b); return g; }
+function circ(x, y, r, c) { cx.beginPath(); cx.arc(x, y, r, 0, Math.PI * 2); cx.fillStyle = c; cx.fill(); }
+
+const SCENES = {
+  clip(t, lt, W, H) {
+    R(0, 0, W, H, logoBg);
+    const sway = Math.sin(t * 1.6) * 16, lx = W / 2 + sway, ly = 320;
+    for (let x = 10; x < W; x += 20) for (let y = 10; y < H; y += 20) {
+      const d = Math.hypot(x - lx, y - ly), r = 2.4 * Math.max(0, 1 - d / 420) * (0.75 + 0.25 * Math.sin(t * 2 - d / 40));
+      if (r > 0.2) circ(x, y, r, "rgba(43,34,36,.55)");
+    }
+    cx.strokeStyle = "#3fa6ad"; cx.lineWidth = 16; cx.lineCap = "round";
+    cx.beginPath(); cx.moveTo(W / 2 - 150, -10); cx.quadraticCurveTo(W / 2 - 60 + sway, 90, lx, ly - 150); cx.stroke();
+    cx.beginPath(); cx.moveTo(W / 2 + 150, -10); cx.quadraticCurveTo(W / 2 + 60 + sway, 90, lx, ly - 150); cx.stroke();
+    R(lx - 12, ly - 168, 24, 26, "#b9bcc4"); R(lx - 6, ly - 150, 12, 10, "#8a8d96");
+    cx.save(); cx.translate(lx, ly - 150); cx.rotate(sway * 0.006); cx.translate(-lx, -(ly - 150));
+    if (logo.complete && logo.naturalWidth) {
+      const s = 0.95, size = 500 * s;
+      cx.save(); cx.beginPath(); cx.arc(lx, ly, 160 * s, 0, Math.PI * 2); cx.clip();
+      cx.drawImage(logo, lx - 247 * s, ly - 250 * s, size, size); cx.restore();
+    } else {
+      circ(lx, ly, 120, "#3fa6ad"); txt("Clip It", lx, ly + 20, 56, "#231f20", 800, DISP, "center");
+    }
+    cx.restore();
+    txt("NO MORE LANYARD IRRITATION", W / 2, H - 30, 16, "#2b2224", 600, MONO, "center");
+  },
+
+  locator(t, lt, W, H) {
+    const cell = 38, PW = 250;
+    for (let i = 0; i * cell < W; i++) for (let j = 0; j * cell < H; j++) {
+      const n = Math.sin(i * 0.42) + Math.cos(j * 0.37) + Math.sin((i + j) * 0.21) * 0.8 + hash(i, j) * 0.5;
+      const h = hash(j, i);
+      const c = n < -0.9 ? (h > .5 ? "#2f5fa8" : "#3468b5") : n < -0.6 ? "#d6c58a" : h > .86 ? "#2e6b2e" : h > .5 ? "#5a9e3a" : "#4f9133";
+      R(i * cell, j * cell, cell, cell, c);
+    }
+    R(0, 0, W, H, "rgba(5,10,8,.35)");
+    const ox = (W - PW) / 2, oy = H / 2, a = t * 1.4, TAU = Math.PI * 2;
+    for (let k = 0; k < 24; k++) {
+      cx.beginPath(); cx.moveTo(ox, oy); cx.arc(ox, oy, 270, a - (k + 1) * 0.04, a - k * 0.04); cx.closePath();
+      cx.fillStyle = `rgba(150,255,170,${0.22 * (1 - k / 24)})`; cx.fill();
+    }
+    cx.strokeStyle = "rgba(255,255,255,.25)"; cx.lineWidth = 1.5;
+    [80, 160, 240].forEach(r => { cx.beginPath(); cx.arc(ox, oy, r, 0, TAU); cx.stroke(); });
+    const S = [
+      { n: "Village", dx: 150, dy: -90, c: "#ffcf4a" },
+      { n: "Desert Temple", dx: 30, dy: 200, c: "#ff9f43" },
+      { n: "Shipwreck", dx: -190, dy: 40, c: "#4dd4ff" },
+      { n: "Stronghold", dx: -80, dy: -185, c: "#c58bff" }
+    ];
+    const dirs = ["E", "SE", "S", "SW", "W", "NW", "N", "NE"];
+    S.forEach(s => {
+      const ang = Math.atan2(s.dy, s.dx), diff = (((a - ang) % TAU) + TAU) % TAU;
+      s.glow = Math.max(0, 1 - diff / 1.6);
+      s.dist = Math.round(Math.hypot(s.dx, s.dy) * 2.3) + "m " + dirs[Math.round(((ang + TAU) % TAU) / (TAU / 8)) % 8];
+      const x = ox + s.dx, y = oy + s.dy;
+      if (s.glow > 0) { cx.strokeStyle = `rgba(255,255,255,${s.glow})`; cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, 12 + (1 - s.glow) * 30, 0, TAU); cx.stroke(); }
+      R(x - 9, y - 9, 18, 18, "#fff"); R(x - 7, y - 7, 14, 14, s.c);
+    });
+    cx.beginPath(); cx.moveTo(ox, oy - 12); cx.lineTo(ox + 9, oy + 10); cx.lineTo(ox, oy + 5); cx.lineTo(ox - 9, oy + 10); cx.closePath();
+    cx.fillStyle = "#fff"; cx.fill();
+    R(W - PW, 0, PW, H, "rgba(10,13,20,.9)");
+    txt("STRUCTURE LOCATOR", W - PW + 22, 46, 15, "#9cffb0", 700);
+    R(W - PW + 22, 60, PW - 44, 1, "#2c3a33");
+    S.forEach((s, i) => {
+      if (lt < 0.3 + i * 0.3) return;
+      const y = 100 + i * 64;
+      if (s.glow > 0.35) R(W - PW + 12, y - 26, PW - 24, 52, "rgba(156,255,176,.1)");
+      R(W - PW + 22, y - 14, 14, 14, s.c);
+      txt(s.n, W - PW + 46, y - 2, 15, "#e8ebf4", 600);
+      txt(s.dist, W - PW + 46, y + 18, 13, "#8890a8", 400);
+    });
+    rr(W - PW + 22, H - 62, 34, 34, 6); cx.fillStyle = "#e8ebf4"; cx.fill();
+    txt("\\", W - PW + 39, H - 38, 18, "#0b0d14", 700, MONO, "center");
+    txt("open menu", W - PW + 68, H - 39, 14, "#8890a8", 400);
+  },
+
+  pid(t, lt, W, H) {
+    const PW = 230;
+    R(0, 0, W, H, "#0f1d38");
+    cx.strokeStyle = "rgba(120,160,255,.08)"; cx.lineWidth = 1;
+    for (let x = 0; x < W; x += 24) { cx.beginPath(); cx.moveTo(x, 0); cx.lineTo(x, H); cx.stroke(); }
+    for (let y = 0; y < H; y += 24) { cx.beginPath(); cx.moveTo(0, y); cx.lineTo(W, y); cx.stroke(); }
+    cx.strokeStyle = "#9fb8ff"; cx.lineWidth = 2.5; cx.lineJoin = "round";
+    [[90, 140, 90, 90, 460, 90, 460, 330], [90, 310, 90, 380, 224, 380], [276, 380, 330, 380, 330, 200, 360, 200], [470, 200, 520, 200, 520, 380, 490, 380]].forEach(p => {
+      cx.beginPath(); cx.moveTo(p[0], p[1]); for (let i = 2; i < p.length; i += 2) cx.lineTo(p[i], p[i + 1]); cx.stroke();
+    });
+    rr(55, 140, 70, 170, 35); cx.fillStyle = "#0f1d38"; cx.fill(); cx.stroke();
+    rr(430, 330, 60, 100, 30); cx.fill(); cx.stroke();
+    rr(360, 175, 110, 50, 25); cx.fill(); cx.stroke();
+    cx.beginPath(); for (let i = 0; i < 6; i++) cx.lineTo(375 + i * 16, i % 2 ? 190 : 210); cx.stroke();
+    cx.beginPath(); cx.arc(250, 380, 26, 0, Math.PI * 2); cx.fill(); cx.stroke();
+    cx.beginPath(); cx.moveTo(238, 366); cx.lineTo(266, 380); cx.lineTo(238, 394); cx.closePath(); cx.stroke();
+    cx.beginPath(); cx.moveTo(286, 78); cx.lineTo(314, 102); cx.lineTo(314, 78); cx.lineTo(286, 102); cx.closePath(); cx.fill(); cx.stroke();
+    const items = [
+      { tag: "T-101", name: "Feed Tank", size: "5,000 gal", b: [48, 133, 84, 184] },
+      { tag: "V-201", name: "Ctrl Valve", size: '3"', b: [280, 72, 40, 36] },
+      { tag: "P-101", name: "Feed Pump", size: '2"', b: [218, 348, 64, 64] },
+      { tag: "E-301", name: "Exchanger", size: '12"', b: [353, 168, 124, 64] },
+      { tag: "V-401", name: "Separator", size: '36"', b: [423, 323, 74, 114] }
+    ];
+    const span = W - PW + 160, sx = ((lt * 110) % span) - 80;
+    const g = cx.createLinearGradient(sx - 60, 0, sx, 0);
+    g.addColorStop(0, "rgba(124,140,255,0)"); g.addColorStop(1, "rgba(124,140,255,.3)");
+    R(sx - 60, 0, 60, H, g); R(sx - 1, 0, 3, H, "#7c8cff");
+    const found = items.filter(it => it.b[0] + it.b[2] / 2 < sx);
+    cx.setLineDash([6, 4]); cx.strokeStyle = "#ff5d73"; cx.lineWidth = 2;
+    found.forEach(it => { cx.strokeRect(...it.b); txt(it.tag, it.b[0], it.b[1] - 6, 13, "#ff5d73", 700); });
+    cx.setLineDash([]);
+    R(W - PW, 0, PW, H, "rgba(8,12,26,.93)");
+    txt("EXTRACTED BY AI", W - PW + 18, 42, 14, "#7c8cff", 700);
+    txt("TAG     NAME        SIZE", W - PW + 18, 72, 11, "#8890a8", 400);
+    R(W - PW + 18, 82, PW - 36, 1, "#262c3d");
+    found.forEach((it, i) => {
+      const y = 112 + i * 40;
+      txt(it.tag, W - PW + 18, y, 13, "#e8ebf4", 700);
+      txt(it.name, W - PW + 82, y, 12, "#c3c8d8", 400);
+      txt(it.size, W - 18, y, 12, "#8890a8", 400, MONO, "right");
+    });
+    if (found.length === items.length) txt("→ equipment_list.xlsx", W - PW + 18, H - 30, 13, "#9cffb0", 600);
+  },
+
+  rumble(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, H, "#1b1640", "#3a1f5c"));
+    circ(W - 130, 90, 40, "#f4ecc2");
+    for (let i = 0, x = 0; x < W; i++) {
+      const w = 50 + hash(i, 3) * 70, h = 120 + hash(i, 7) * 220;
+      R(x, 440 - h, w, h, "#120f26");
+      for (let wx = x + 8; wx < x + w - 10; wx += 16) for (let wy = 450 - h; wy < 420; wy += 22)
+        if (hash(wx, wy) > 0.6) R(wx, wy, 7, 10, `rgba(255,210,63,${0.35 + 0.3 * Math.sin(t * 2 + wx * wy)})`);
+      x += w + 6;
+    }
+    R(60, 440, W - 120, 22, "#2c2752"); R(60, 440, W - 120, 4, "#4a4290"); R(0, 462, W, H, "#0d0b1a");
+    const ph = (t % 1.2) / 1.2;
+    const x1 = W / 2 - 90 + Math.sin(t * 1.7) * 50, x2 = W / 2 + 90 + Math.sin(t * 1.7 + 2.4) * 50;
+    function fighter(x, dir, col, punching, ext) {
+      const bob = Math.abs(Math.sin(t * 6)) * 3, y = 380 - bob;
+      R(x - 15, y, 30, 52, col); circ(x, y - 16, 16, col);
+      R(x + dir * 4 - 4, y - 21, 8, 6, "#fff");
+      R(x - 14, y + 52, 10, 8, col); R(x + 4, y + 52, 10, 8, col);
+      const reach = punching ? 18 + ext * 36 : 14;
+      R(dir > 0 ? x + 10 : x - 10 - reach, y + 14, reach, 10, col);
+    }
+    const ext = Math.sin(Math.min(1, ph / 0.5) * Math.PI);
+    const p1 = Math.floor(t / 1.2) % 2 === 0;
+    fighter(x1, 1, "#ff4d6d", p1, ext); fighter(x2, -1, "#3fa7ff", !p1, ext);
+    if (ph > 0.18 && ph < 0.4 && x2 - x1 < 190) {
+      const hx = p1 ? x2 - 18 : x1 + 18;
+      for (let k = 0; k < 10; k++) {
+        const a = k / 10 * Math.PI * 2, r = 10 + (ph - 0.18) * 160;
+        R(hx + Math.cos(a) * r - 3, 398 + Math.sin(a) * r - 3, 6, 6, "#ffd23f");
+      }
+    }
+    const hits = Math.floor(t / 1.2);
+    txt("P1", 40, 50, 14, "#ff4d6d", 700); txt((Math.floor(hits / 2) * 13 % 160) + "%", 40, 90, 34, "#ece9ff", 700, DISP);
+    txt("CPU", W - 40, 50, 14, "#3fa7ff", 700, MONO, "right"); txt((Math.ceil(hits / 2) * 17 % 180) + "%", W - 40, 90, 34, "#ece9ff", 700, DISP, "right");
+  },
+
+  weld(t, lt, W, H) {
+    R(0, 0, W, H, "#101a2a");
+    const s = 34, c30 = Math.cos(Math.PI / 6), s30 = 0.5;
+    const iso = (p) => [230 + (p[0] - p[1]) * c30 * s, 150 + (p[0] + p[1]) * s30 * s - p[2] * s];
+    const pts = [[0, 0, 0], [6, 0, 0], [6, 0, 3], [6, 5, 3], [10, 5, 3], [10, 5, 0], [10, 9, 0]].map(iso);
+    [[20, "#1d2a40"], [12, "#6f86a8"], [4, "#9fb3d1"]].forEach(([w, c]) => {
+      cx.strokeStyle = c; cx.lineWidth = w; cx.lineJoin = "round"; cx.lineCap = "round";
+      cx.beginPath(); pts.forEach((p, i) => i ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1])); cx.stroke();
+    });
+    const welds = [];
+    pts.forEach((p, i) => { welds.push(p); if (i < pts.length - 1) welds.push([(p[0] + pts[i + 1][0]) / 2, (p[1] + pts[i + 1][1]) / 2]); });
+    const lit = Math.min(welds.length, Math.floor((lt % 7) * 3));
+    welds.forEach((w, i) => {
+      if (i < lit) {
+        circ(w[0], w[1], 14, "rgba(255,179,71,.18)"); circ(w[0], w[1], 7, "#ffb347");
+        txt("W-" + String(i + 1).padStart(2, "0"), w[0] + 14, w[1] - 10, 11, "#ffd9a0", 600);
+        if (i === lit - 1) for (let k = 0; k < 6; k++) { const a = t * 9 + k; R(w[0] + Math.cos(a) * 16, w[1] + Math.sin(a) * 16, 3, 3, "#fff2c0"); }
+      } else circ(w[0], w[1], 6, "#33445f");
+    });
+    txt("WELDS FOUND", W - 40, 60, 13, "#8890a8", 600, MONO, "right");
+    txt(String(Math.round(lit / welds.length * 411)), W - 40, 120, 60, "#ffb347", 800, DISP, "right");
+    txt("40 drawings → 1 master list", W - 40, H - 36, 14, "#c3c8d8", 400, MONO, "right");
+  },
+
+  takeoff(t, lt, W, H) {
+    R(0, 0, W, H, "#0f1520");
+    const rows = [["2\"-3A1-L-211", "21'-7 1/8\"", 22], ["2\"-3A1-L-216", "8'-3\"", 9], ["1\"-3A1-D-186", "104\"", 9], ["0.75\"-3A1-D-187", "3'-0\"", 3],
+      ["1.5\"-3A11-V-192", "15'-11 3/4\"", 16], ["2\"-3A1-LO-172", "6.5", 7], ["1\"-3A11-V-193", "2'-4 1/2\"", 3]];
+    const x0 = 40, cols = [x0, x0 + 300, x0 + 520], top = 50, rh = 50, L = lt % (rows.length * 0.5 + 3.5);
+    R(x0 - 10, top, W - 60, rh, "#1b2536");
+    txt("LINE", cols[0], top + 32, 13, "#7c8cff", 700); txt("RAW LENGTH", cols[1], top + 32, 13, "#7c8cff", 700); txt("ROUNDED", cols[2], top + 32, 13, "#7c8cff", 700);
+    let total = 0;
+    rows.forEach((r, i) => {
+      const y = top + rh * (i + 1), age = L - i * 0.5;
+      R(x0 - 10, y + rh - 1, W - 60, 1, "#263247");
+      if (age < 0) return;
+      txt(r[0], cols[0], y + 32, 15, "#e8ebf4", 400); txt(r[1], cols[1], y + 32, 15, "#c3c8d8", 400);
+      if (age > 0.3) {
+        if (age < 0.7) R(cols[2] - 10, y + 4, 140, rh - 8, "rgba(124,140,255,.25)");
+        txt(r[2] + " ft", cols[2], y + 32, 15, "#9fb0ff", 700); total += r[2];
+      }
+    });
+    const ty = top + rh * (rows.length + 1);
+    R(x0 - 10, ty, W - 60, 2, "#7c8cff");
+    txt("TOTAL PIPE", cols[0], ty + 40, 15, "#8890a8", 700);
+    txt(total + " ft", cols[2], ty + 40, 22, "#e8ebf4", 800, DISP);
+  },
+
+  enchant(t, lt, W, H) {
+    const g = cx.createRadialGradient(W / 2, 300, 20, W / 2, 300, 420); g.addColorStop(0, "#2a1650"); g.addColorStop(1, "#07050d");
+    R(0, 0, W, H, g);
+    const bx = W / 2, by = 260 + Math.sin(t * 2) * 8;
+    const glyphs = "ᔑʖᓵ↸ᒷ⎓⊣⍑╎ꖌꖎᒲリ𝙹ᑑ∷ᓭℸ⚍⍊∴⨅";
+    for (let i = 0; i < 28; i++) {
+      const p = (t * 0.3 + i / 28) % 1, base = i * 2.4, r = 320 * (1 - p), a = base + p * 2.2;
+      cx.globalAlpha = Math.sin(p * Math.PI);
+      txt(glyphs[i % glyphs.length], bx + Math.cos(a) * r, by + Math.sin(a) * r * 0.6, 22, "#d9c8ff", 400, "system-ui", "center");
+    }
+    cx.globalAlpha = 1;
+    pix(["  dddddddddd  ", " dcccccccccccd ", "dccccrrrrccccd", "dbbbbbbbbbbbbd", "dbpbbbbbbbbpbd", "dbbbbbpbbbbbbd", "dbbbbbbbbbbbbd"].map(r => r.replace(/ /g, ".")),
+      { d: "#140e22", c: "#b3272d", r: "#d9433f", b: "#1d1530", p: "#6b3fbf" }, W / 2 - 70, 360, 10);
+    R(W / 2 - 70, 360, 14, 14, "#5fe3e0"); R(W / 2 + 56, 360, 14, 14, "#5fe3e0");
+    cx.save(); cx.translate(bx, by); cx.rotate(Math.sin(t) * 0.08);
+    R(-46, -6, 92, 34, "#7a4a22"); R(-42, -14, 40, 34, "#f1e6c8"); R(2, -14, 40, 34, "#e6d8b0");
+    for (let k = 0; k < 4; k++) { R(-36, -6 + k * 7, 28, 2, "#b9a77d"); R(8, -6 + k * 7, 28, 2, "#b9a77d"); }
+    cx.restore();
+    const names = ["Sharpness VI", "Fortune IV", "Mending II", "Swift Strike", "Soul Bound"];
+    const k = Math.floor(t / 2) % names.length, f = (t % 2) / 2;
+    cx.globalAlpha = Math.sin(f * Math.PI);
+    txt(names[k], W / 2, 120, 30, "#c7a6ff", 600, DISP, "center");
+    cx.globalAlpha = 1;
+  },
+
+  mobs(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, H, "#5aa9f0", "#bfe3ff"));
+    R(0, 420, W, 30, "#5ab04a"); R(0, 450, W, H, "#7a5230");
+    for (let x = 0; x < W; x += 20) R(x, 420, 10, 6, "#6cc85a");
+    const A = ["...bbbb...", ".bbbbbbbb.", ".bwwbbwwb.", "bbwkbbwkbb", "bbbbbbbbbb", "bbbbmmbbbb", "bbbbbbbbbb", ".bbbbbbbb.", ".bb....bb.", ".bb....bb."];
+    const B = ["h........h", "hh......hh", ".bbbbbbbb.", "bbkbbbbkbb", "bbbbbbbbbb", "bbmmmmmmbb", "bbbbbbbbbb", ".bbbbbbbb.", ".b.b..b.b.", ".b.b..b.b."];
+    [[A, "#5bd16a", "#2f7d3a"], [B, "#e0553d", "#7a2416"], [A, "#9b6cff", "#4a2a99"], [B, "#3ec7c2", "#1d6e6b"]].forEach(([m, b, d], i) => {
+      const pop = Math.min(1, Math.max(0, (lt - i * 0.35) * 3)); if (!pop) return;
+      const s = 11 * pop, x = 70 + i * 170 + (110 - 10 * s) / 2, hop = Math.abs(Math.sin(t * 3 + i * 1.3)) * 26;
+      pix(m, { b, w: "#fff", k: "#111", m: d, h: "#f2e3c6" }, x, 420 - 10 * s - hop, s);
+      cx.globalAlpha = 0.25; R(x + 10, 418, 10 * s - 20, 4, "#000"); cx.globalAlpha = 1;
+    });
+    txt("NEW MOBS SPAWNED", W / 2, 80, 26, "#0b2540", 700, DISP, "center");
+  },
+
+  ride(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, H, "#ffb46b", "#ffe1b8"));
+    circ(W - 140, 120, 46, "#fff1c9");
+    [[0.2, "#e08a5a", 300, 60], [0.5, "#b85f45", 360, 45]].forEach(([sp, c, base, amp]) => {
+      cx.beginPath(); cx.moveTo(0, H);
+      for (let x = 0; x <= W; x += 10) cx.lineTo(x, base - Math.sin((x + t * 100 * sp) / 90) * amp - Math.sin((x + t * 100 * sp) / 37) * amp * 0.3);
+      cx.lineTo(W, H); cx.closePath(); cx.fillStyle = c; cx.fill();
+    });
+    R(0, 440, W, H, "#5e3b2a");
+    for (let x = -((t * 240) % 60); x < W; x += 60) R(x, 452, 26, 6, "#7a5038");
+    const bob = Math.abs(Math.sin(t * 7)) * 8, x = W / 2 - 90, y = 300 - bob, st = Math.sin(t * 14);
+    [[0, st], [36, -st], [96, -st], [132, st]].forEach(([lx, s]) => R(x + 10 + lx + s * 8, y + 80, 16, 60 - bob, "#4f3a2c"));
+    R(x, y + 20, 170, 66, "#6b4f3a"); R(x + 150, y - 10, 60, 56, "#6b4f3a"); R(x + 186, y + 4, 10, 10, "#111");
+    R(x + 200, y + 26, 16, 14, "#4f3a2c"); R(x + 150, y - 24, 14, 16, "#6b4f3a");
+    R(x + 50, y + 8, 60, 16, "#9b2f2f"); R(x + 46, y + 4, 8, 22, "#c9a23c");
+    R(x + 64, y - 70, 32, 72, "#2f6fd6"); R(x + 64, y - 106, 32, 32, "#f0c39a"); R(x + 84, y - 96, 6, 6, "#222");
+    R(x + 96, y - 60, 40, 12, "#2f6fd6"); R(x + 64, y - 112, 32, 10, "#3a2618");
+    for (let k = 0; k < 8; k++) {
+      const p = (t * 1.5 + k / 8) % 1;
+      cx.globalAlpha = 1 - p; circ(x - 10 - p * 160, 440 - p * 30 - hash(k, 1) * 20, 6 + p * 10, "#d9b89a");
+    }
+    cx.globalAlpha = 1;
+  },
+
+  food(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, H, "#2a1a12", "#3d2618"));
+    R(0, 400, W, H, "#8a5a32"); R(0, 400, W, 6, "#a8743f");
+    const F = [
+      [["..oooo..", ".oyoooy.", "oooooooo", "gggggggg", "rrrrrrrr", "bbbbbbbb", "oooooooo", ".oooooo."], { o: "#d99a3e", y: "#fff2c0", g: "#5fbf4a", r: "#d9452f", b: "#5a3018" }],
+      [["....s...", "...sl...", ".rrrrrr.", "rrrrrwrr", "rrrrrrrr", "rrrrrrrr", ".rrrrrr.", "..rrrr.."], { s: "#5a3018", l: "#5fbf4a", r: "#d9452f", w: "#ff9b8a" }],
+      [["........", "..cccc..", ".cpcpcc.", "cpcpcpcc", "cccccccc", "dddddddd", ".dddddd.", "........"], { c: "#e0a85a", p: "#a3324f", d: "#b07a38" }],
+      [["..cccc..", ".ccdccc.", "ccccccdc", "cdcccccc", "ccccdccc", "ccdccccc", ".cccccc.", "..cccc.."], { c: "#d8a05a", d: "#4a2a14" }]
+    ];
+    F.forEach(([m, pal], i) => {
+      const x = 60 + i * 170, y = 300 - Math.abs(Math.sin(t * 2.2 + i)) * 24;
+      cx.globalAlpha = 0.3; R(x + 10, 396, 100, 6, "#000"); cx.globalAlpha = 1;
+      pix(m, pal, x, y - 60, 15);
+      const sp = (t * 1.3 + i * 0.4) % 1; cx.globalAlpha = 1 - sp;
+      R(x + 100, y - 70 - sp * 40, 6, 6, "#fff2c0"); cx.globalAlpha = 1;
+    });
+    const full = Math.min(10, Math.floor((lt % 8) * 2));
+    for (let k = 0; k < 10; k++) {
+      const x = W / 2 - 250 + k * 50, y = 470;
+      rr(x, y, 26, 22, 10); cx.fillStyle = k < full ? "#b5652e" : "#3a2a20"; cx.fill();
+      R(x + 22, y + 14, 14, 6, k < full ? "#efe6d6" : "#4a3a30");
+    }
+    txt("HUNGER", W / 2, 540, 13, "#d8b48a", 700, MONO, "center");
+  },
+
+  farm(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, 260, "#7ec8ff", "#d8f0ff"));
+    circ(120, 90, 40, "#fff3a8");
+    for (let r = 0; r < 5; r++) {
+      const y = 250 + r * 64;
+      R(0, y, W, 64, r % 2 ? "#6b3f22" : "#5e361c"); R(0, y + 50, W, 6, "#4a2a15");
+      for (let i = 0; i < 12; i++) {
+        const x = 30 + i * 62 + (r % 2) * 20, cyc = (t * 0.35 + hash(i, r) * 3) % 3.4, st = Math.min(3, Math.floor(cyc));
+        const h = 8 + st * 12;
+        R(x, y + 48 - h, 5, h, "#4f9a2e");
+        if (st >= 1) { R(x - 8, y + 44 - h / 2, 8, 5, "#6cc045"); R(x + 5, y + 40 - h / 2, 8, 5, "#6cc045"); }
+        if (st === 3) R(x - 4, y + 36 - h, 13, 16, r % 2 ? "#e8c547" : "#f08a2c");
+      }
+    }
+    const dx = (t * 60) % (W + 200) - 100;
+    for (let k = 0; k < 6; k++) R(dx + k * 14, 230 + ((t * 300 + k * 30) % 40), 3, 9, "rgba(120,180,255,.7)");
+    R(0, 248, W, 2, "#3d2412");
+  },
+
+  bear(t, lt, W, H) {
+    const sc = H / 600, ox = (W - 600 * sc) / 2, oy = Math.sin(t * 1.5) * 6;
+    R(0, 0, W, H, "red");
+    const C = (x, y, d, c) => circ(ox + x * sc, oy + y * sc, d / 2 * sc, c);
+    C(150, 100, 150, "orange"); C(450, 100, 150, "orange");
+    C(150, 100, 100, "yellow"); C(450, 100, 100, "yellow");
+    C(300, 300, 500, "brown"); C(300, 400, 250, "beige");
+    C(300, 310, 50, "green"); C(200, 200, 40, "blue"); C(400, 200, 40, "blue");
+    C(300, 425, 150, "purple");
+    txt("sketch.js", 20, H - 20, 13, "rgba(255,255,255,.8)", 600);
+  },
+
+  armor(t, lt, W, H) {
+    const g = cx.createRadialGradient(W / 2 - 80, 260, 20, W / 2 - 80, 260, 380); g.addColorStop(0, "#23304a"); g.addColorStop(1, "#0b0f18");
+    R(0, 0, W, H, g);
+    const x = W / 2 - 170, y = 80 + Math.sin(t * 1.5) * 5, s = 14;
+    const M = ["...hhhhhh...", "..hHHHHHHh..", "..hHvvvvHh..", "..hh....hh..", "............", "ccc.cccc.ccc", "cCCcCCCCcCCc", "cCCcCCCCcCCc", "...cCCCCc...", "...cCCCCc...", "...cccccc...", "...ll..ll...", "...lL..Ll...", "...lL..Ll...", "...bb..bb...", "..bbb..bbb.."];
+    pix(M, { h: "#4c5f86", H: "#7fa0e0", v: "#1a2238", c: "#4c5f86", C: "#86a8ec", l: "#40527a", L: "#7192d4", b: "#33425f" }, x, y, s);
+    const sh = ((t * 0.6) % 1.6) - 0.3;
+    cx.save(); cx.beginPath(); cx.rect(x, y, 12 * s, 16 * s); cx.clip();
+    const sg = cx.createLinearGradient(x + sh * 12 * s - 40, 0, x + sh * 12 * s + 40, 0);
+    sg.addColorStop(0, "rgba(255,255,255,0)"); sg.addColorStop(.5, "rgba(255,255,255,.35)"); sg.addColorStop(1, "rgba(255,255,255,0)");
+    cx.globalCompositeOperation = "lighter"; R(x, y, 12 * s, 16 * s, sg); cx.restore();
+    const px0 = W - 270;
+    txt("ARMOR", px0, 130, 14, "#8890a8", 700);
+    const full = Math.min(10, Math.floor((lt % 6) * 3));
+    for (let k = 0; k < 10; k++) {
+      const sx = px0 + (k % 5) * 44, sy = 150 + Math.floor(k / 5) * 48;
+      cx.beginPath(); cx.moveTo(sx, sy); cx.lineTo(sx + 32, sy); cx.lineTo(sx + 32, sy + 18); cx.lineTo(sx + 16, sy + 34); cx.lineTo(sx, sy + 18); cx.closePath();
+      cx.fillStyle = k < full ? "#86a8ec" : "#1f2638"; cx.fill();
+    }
+    txt("+" + full * 2 + " protection", px0, 300, 20, "#e8ebf4", 700, DISP);
+    txt("Toughness  ▮▮▮▮▯", px0, 340, 14, "#c3c8d8", 400);
+    txt("Knockback  ▮▮▮▯▯", px0, 368, 14, "#c3c8d8", 400);
+  },
+
+  ores(t, lt, W, H) {
+    const s = 38, ores = [["#2fd1c5", "#a0fff7"], ["#ff4fa3", "#ffc0e0"], ["#ffb02e", "#ffe7a8"]];
+    for (let i = 0; i * s < W; i++) for (let j = 0; j * s < H; j++) {
+      const h = hash(i, j);
+      R(i * s, j * s, s, s, h > .5 ? "#6d6f73" : "#7b7d82");
+      R(i * s + 4, j * s + 6, 8, 6, "#5e6064"); R(i * s + 22, j * s + 24, 10, 6, "#888a8f");
+      const o = hash(j * 3, i * 7);
+      if (o > 0.86) {
+        const [c, c2] = ores[Math.floor(o * 100) % 3], gl = 0.6 + 0.4 * Math.sin(t * 3 + i + j);
+        cx.globalAlpha = gl; R(i * s + 8, j * s + 10, 8, 8, c); R(i * s + 22, j * s + 6, 6, 6, c2); R(i * s + 18, j * s + 22, 9, 9, c); cx.globalAlpha = 1;
+      }
+    }
+    const bx = 9 * s, by = 7 * s, ph = (lt % 2.4) / 2.4;
+    R(bx - 4, by - 4, s + 8, s + 8, "rgba(0,0,0,.35)");
+    R(bx, by, s, s, "#7b7d82"); R(bx + 8, by + 10, 10, 10, "#2fd1c5"); R(bx + 22, by + 22, 9, 9, "#2fd1c5");
+    cx.strokeStyle = "#111"; cx.lineWidth = 2;
+    for (let k = 0; k < Math.floor(ph * 8); k++) { cx.beginPath(); cx.moveTo(bx + s / 2, by + s / 2); cx.lineTo(bx + s / 2 + Math.cos(k * 0.8) * 18, by + s / 2 + Math.sin(k * 0.8) * 18); cx.stroke(); }
+    cx.save(); cx.translate(bx + s + 30, by - 10); cx.rotate(-0.6 + Math.sin(t * 10) * 0.35);
+    R(-4, 0, 8, 70, "#7a4a22"); R(-34, -6, 68, 10, "#2fd1c5"); R(-38, -2, 8, 10, "#2fd1c5"); R(30, -2, 8, 10, "#2fd1c5");
+    cx.restore();
+    for (let k = 0; k < 8; k++) { const a = k * 0.78 + t * 3, r = (t * 40 + k * 9) % 50; R(bx + s / 2 + Math.cos(a) * r, by + s / 2 + Math.sin(a) * r, 5, 5, "#a0fff7"); }
+    rr(24, 24, 250, 44, 8); cx.fillStyle = "rgba(10,12,18,.85)"; cx.fill();
+    txt("NEW ORES DISCOVERED", 40, 52, 14, "#a0fff7", 700);
+  },
+
+  dimension(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, H, "#12052b", "#3b0f4f"));
+    for (let k = 0; k < 70; k++) R(hash(k, 1) * W, hash(k, 2) * 300, 2, 2, `rgba(255,255,255,${0.3 + 0.5 * Math.sin(t * 2 + k)})`);
+    circ(W - 150, 110, 60, "#ff6fd8"); circ(W - 130, 100, 60, "#12052b");
+    cx.fillStyle = "#1c0b33";
+    for (let k = 0; k < 6; k++) {
+      const x = hash(k, 9) * W, y = 150 + hash(k, 4) * 120 + Math.sin(t + k) * 10, w = 60 + hash(k, 5) * 80;
+      cx.beginPath(); cx.moveTo(x, y); cx.lineTo(x + w, y); cx.lineTo(x + w * 0.6, y + 50); cx.lineTo(x + w * 0.3, y + 40); cx.closePath(); cx.fill();
+      R(x, y - 8, w, 8, "#4ae0c3");
+    }
+    R(0, 460, W, H, "#1c0b33"); R(0, 456, W, 6, "#4ae0c3");
+    const fx = W / 2 - 90, fy = 180, fw = 180, fh = 276, b = 26;
+    R(fx, fy, fw, fh, "#160a26");
+    const pg = cx.createRadialGradient(W / 2, fy + fh / 2, 10, W / 2, fy + fh / 2, 160); pg.addColorStop(0, "#c46bff"); pg.addColorStop(1, "#2a0f66");
+    R(fx + b, fy + b, fw - 2 * b, fh - b, pg);
+    cx.save(); cx.beginPath(); cx.rect(fx + b, fy + b, fw - 2 * b, fh - b); cx.clip();
+    for (let k = 0; k < 40; k++) {
+      const a = t * 1.5 + k * 0.6, r = (k * 7 + t * 30) % 140;
+      R(W / 2 + Math.cos(a) * r * 0.6, fy + fh / 2 + Math.sin(a) * r, 4, 4, k % 2 ? "#4ae0c3" : "#f3c7ff");
+    }
+    cx.restore();
+    [[fx, fy, b, fh], [fx + fw - b, fy, b, fh], [fx, fy, fw, b]].forEach(r => { R(...r, "#2a2140"); });
+    for (let k = 0; k < 6; k++) R(fx + 4 + (k % 2) * (fw - b), fy + 20 + k * 40, 14, 14, "#4b3d6b");
+    for (let k = 0; k < 10; k++) {
+      const p = (t * 0.5 + k / 10) % 1; cx.globalAlpha = 1 - p;
+      R(W / 2 - 80 + hash(k, 3) * 160, fy + fh - p * 300, 5, 5, "#e6b3ff");
+    }
+    cx.globalAlpha = 1;
+  },
+
+  tools(t, lt, W, H) {
+    R(0, 0, W, H, grad(0, H, "#1a1410", "#2e241b"));
+    const head = "#ff7a3d", hi = "#ffd0a8", st = "#7a4a22";
+    const T = [
+      ["mmmmmmm..", "m.....mm.", "......s.m", ".....s...", "....s....", "...s.....", "..s......", ".s.......", "s........"],
+      [".......mm", "......mhm", ".....mhm.", "....mhm..", "s..mhm...", ".smhm....", "..sm.....", ".s.s.....", "s........"],
+      ["...mm....", "..mhmm...", "..mmmms..", "...mms...", "....s....", "...s.....", "..s......", ".s.......", "s........"],
+      [".....mmm.", "....mhhm.", "....mhmm.", ".....mm..", "....s....", "...s.....", "..s......", ".s.......", "s........"]
+    ];
+    T.forEach((m, i) => {
+      const x = 70 + i * 170, y = 200;
+      cx.save(); cx.translate(x + 54, y + 54); cx.rotate(Math.sin(t * 1.5 + i) * 0.15); cx.translate(-x - 54, -y - 54);
+      pix(m, { m: head, h: hi, s: st }, x, y, 12);
+      cx.restore();
+      const sh = (t * 0.8 + i * 0.25) % 1.5;
+      if (sh < 1) { cx.globalAlpha = Math.sin(sh * Math.PI); R(x + sh * 100, y + 10, 6, 6, "#fff"); R(x + sh * 100 + 8, y + 2, 3, 3, "#fff"); cx.globalAlpha = 1; }
+    });
+    ["Mining speed", "Durability", "Attack"].forEach((l, i) => {
+      const y = 420 + i * 40, v = Math.min(1, lt / (1.2 + i * 0.4));
+      txt(l, 70, y + 14, 14, "#d8b48a", 600);
+      R(240, y, 420, 18, "#3a2c20"); R(240, y, 420 * v * (0.75 + i * 0.08), 18, head);
+    });
+  },
+
+  gigma(t, lt, W, H) {
+    R(0, 0, W, H, "#0c1410");
+    txt("GIGMA GAMES", 32, 54, 28, "#5dff9d", 800, DISP);
+    const letters = "ABCDEFGHIJKL";
+    for (let i = 0; i < letters.length; i++) {
+      const on = Math.floor(t * 1.2) % letters.length === i;
+      rr(32 + i * 46, 76, 38, 30, 6); cx.fillStyle = on ? "#5dff9d" : "#18261e"; cx.fill();
+      txt(letters[i], 51 + i * 46, 97, 14, on ? "#0c1410" : "#8fb5a0", 700, MONO, "center");
+    }
+    const cols = 5, tw = 128, th = 92, gx = 32, gy = 128, pal = ["#ff5d73", "#7c8cff", "#ffd23f", "#3fa7ff", "#ff9f43", "#c58bff", "#2fd1c5"];
+    const shift = (t * 30) % (th + 14);
+    cx.save(); cx.beginPath(); cx.rect(0, gy, W, H - gy - 60); cx.clip();
+    for (let r = -1; r < 5; r++) for (let c = 0; c < cols; c++) {
+      const k = r * cols + c + Math.floor(t * 30 / (th + 14)) * cols, x = gx + c * (tw + 12), y = gy + r * (th + 14) - shift + th + 14;
+      const col = pal[Math.abs(k * 7) % pal.length], hov = Math.floor(t * 2) % 23 === Math.abs(k) % 23;
+      rr(x, y, tw, th, 10); cx.fillStyle = "#16221b"; cx.fill();
+      rr(x + 8, y + 8, tw - 16, th - 34, 6); cx.fillStyle = col; cx.globalAlpha = hov ? 1 : 0.75; cx.fill(); cx.globalAlpha = 1;
+      const sx = x + tw / 2, sy = y + 8 + (th - 34) / 2;
+      if (k % 3 === 0) circ(sx, sy, 12, "rgba(0,0,0,.35)"); else if (k % 3 === 1) R(sx - 12, sy - 12, 24, 24, "rgba(0,0,0,.35)");
+      else { cx.beginPath(); cx.moveTo(sx - 10, sy - 13); cx.lineTo(sx + 14, sy); cx.lineTo(sx - 10, sy + 13); cx.fillStyle = "rgba(0,0,0,.35)"; cx.fill(); }
+      R(x + 10, y + th - 18, 60 + (Math.abs(k) % 4) * 10, 7, "#3a5446");
+      if (hov) { cx.strokeStyle = "#5dff9d"; cx.lineWidth = 2; rr(x, y, tw, th, 10); cx.stroke(); }
+    }
+    cx.restore();
+    R(0, H - 60, W, 60, "#0f1a14");
+    const n = Math.min(240, Math.floor(lt * 90));
+    txt(n + (n >= 240 ? "+" : "") + " GAMES", 32, H - 22, 22, "#e8ebf4", 800, DISP);
+    rr(W - 170, H - 48, 138, 36, 8); cx.fillStyle = "#ff5d73"; cx.fill();
+    txt("PANIC", W - 101, H - 24, 15, "#fff", 800, MONO, "center");
+  },
+
+  blook(t, lt, W, H) {
+    R(0, 0, W, H, "#1d1635");
+    rr(70, 70, W - 140, 340, 18); cx.fillStyle = "#2b2150"; cx.fill();
+    txt("QUESTION 7", W / 2, 120, 18, "#e8ebf4", 700, DISP, "center");
+    ["#ff6b6b", "#4dabf7", "#ffd43b", "#51cf66"].forEach((c, i) => {
+      const x = 100 + (i % 2) * ((W - 200) / 2 + 10), y = 160 + Math.floor(i / 2) * 110;
+      rr(x, y, (W - 200) / 2 - 10, 92, 12); cx.fillStyle = c; cx.fill();
+    });
+    const L = lt % 6, n = Math.floor(120 * Math.pow(1.9, L * 2));
+    rr(W - 250, 18, 200, 40, 20); cx.fillStyle = "#ffd43b"; cx.fill();
+    txt("GOLD " + n.toLocaleString(), W - 150, 45, 16, "#3a2a00", 700, MONO, "center");
+    for (let k = 0; k < 4; k++) {
+      const p = (lt * 1.2 + k / 4) % 1; cx.globalAlpha = 1 - p;
+      txt("+" + (999 * (k + 1)), 160 + k * 140, 300 - p * 160, 20, "#fff", 700, DISP, "center");
+    }
+    cx.globalAlpha = 1;
+    rr(70, 440, W - 140, 80, 10); cx.fillStyle = "#0b0d14"; cx.fill();
+    txt("> game.state.gold = " + n, 92, 488, 17, "#8ce99a", 600);
+  }
+};
+
+function draw(time) {
+  const p = CONFIG.projects[cur], W = cv.width, H = cv.height;
+  const t = reduce ? 2 : time / 1000, lt = reduce ? 10 : (time - t0) / 1000;
+  cx.save();
+  cx.textBaseline = "alphabetic";
+  (SCENES[p.scene] || SCENES.bear)(t, lt, W, H);
+  cx.restore();
+  requestAnimationFrame(draw);
+}
+select(0); requestAnimationFrame(draw);
+const fc = $("fishcv"), fx = fc.getContext("2d");
+function bass(x, y, t) {
+  const sway = Math.sin(t * 5) * 0.12;
+  fx.save(); fx.translate(x, y);
+  fx.save(); fx.translate(110, 0); fx.rotate(sway);
+  fx.beginPath(); fx.moveTo(0, 0); fx.lineTo(70, -46); fx.quadraticCurveTo(58, 0, 70, 46); fx.closePath();
+  fx.fillStyle = "#4d6b2c"; fx.fill(); fx.restore();
+  fx.beginPath(); fx.moveTo(-60, -40); fx.lineTo(-30, -78); fx.lineTo(-10, -48); fx.lineTo(10, -74); fx.lineTo(30, -46); fx.lineTo(60, -64); fx.lineTo(80, -30); fx.closePath();
+  fx.fillStyle = "#3d5522"; fx.fill();
+  const g = fx.createLinearGradient(0, -50, 0, 50);
+  g.addColorStop(0, "#344c1c"); g.addColorStop(0.45, "#6f8f3e"); g.addColorStop(0.7, "#c9c69a"); g.addColorStop(1, "#ece6c8");
+  fx.beginPath(); fx.ellipse(0, 0, 125, 50, 0, 0, Math.PI * 2); fx.fillStyle = g; fx.fill();
+  fx.fillStyle = "#26361a";
+  for (let i = 0; i < 9; i++) { const bx = -70 + i * 20; fx.beginPath(); fx.ellipse(bx, 2 + Math.sin(i * 2.1) * 4, 11, 7 + (i % 3) * 2, 0.3, 0, Math.PI * 2); fx.fill(); }
+  const open = 8 + Math.max(0, Math.sin(t * 1.3)) * 14;
+  fx.beginPath(); fx.moveTo(-126, -4); fx.lineTo(-84, 6); fx.lineTo(-126, 6 + open); fx.closePath(); fx.fillStyle = "#1a1410"; fx.fill();
+  fx.beginPath(); fx.moveTo(-60, -30); fx.quadraticCurveTo(-48, 0, -62, 30); fx.strokeStyle = "rgba(30,40,20,.6)"; fx.lineWidth = 3; fx.stroke();
+  fx.beginPath(); fx.arc(-90, -16, 9, 0, Math.PI * 2); fx.fillStyle = "#d9a520"; fx.fill();
+  fx.beginPath(); fx.arc(-91, -16, 4.5, 0, Math.PI * 2); fx.fillStyle = "#0b0b0b"; fx.fill();
+  fx.beginPath(); fx.moveTo(-10, 30); fx.lineTo(10, 62); fx.lineTo(24, 36); fx.closePath(); fx.fillStyle = "#5c7a35"; fx.fill();
+  fx.restore();
+}
+function fishDraw(time) {
+  const W = fc.width, H = fc.height, t = reduce ? 1 : time / 1000;
+  const g = fx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#1c5a55"); g.addColorStop(1, "#061615");
+  fx.fillStyle = g; fx.fillRect(0, 0, W, H);
+  for (let k = 0; k < 5; k++) {
+    const x = 80 + k * 160 + Math.sin(t * 0.4 + k) * 30;
+    fx.beginPath(); fx.moveTo(x, 0); fx.lineTo(x + 60, 0); fx.lineTo(x + 140, H); fx.lineTo(x + 60, H); fx.closePath();
+    fx.fillStyle = "rgba(180,255,240,.04)"; fx.fill();
+  }
+  for (let k = 0; k < 14; k++) {
+    const bx = 30 + k * 55, base = H + 10;
+    fx.beginPath(); fx.moveTo(bx, base);
+    fx.quadraticCurveTo(bx + Math.sin(t * 1.2 + k) * 24, base - 60, bx + Math.sin(t * 1.2 + k + 1) * 14, base - 90 - (k % 4) * 22);
+    fx.strokeStyle = k % 2 ? "#1f4a26" : "#2c5f2e"; fx.lineWidth = 7; fx.lineCap = "round"; fx.stroke();
+  }
+  const lx = 190 + Math.sin(t * 0.9) * 8, ly = 170 + Math.sin(t * 1.7) * 10;
+  fx.beginPath(); fx.moveTo(200, 0); fx.lineTo(lx, ly); fx.strokeStyle = "rgba(255,255,255,.5)"; fx.lineWidth = 1; fx.stroke();
+  fx.save(); fx.translate(lx, ly); fx.rotate(Math.sin(t * 3) * 0.4);
+  fx.beginPath(); fx.ellipse(0, 18, 6, 22, 0, 0, Math.PI * 2); fx.fillStyle = "#c6ff3a"; fx.fill();
+  fx.beginPath(); fx.arc(0, 2, 5, 0, Math.PI * 2); fx.fillStyle = "#ff7a2e"; fx.fill();
+  fx.restore();
+  bass(470 + Math.sin(t * 0.6) * 50, 215 + Math.sin(t * 1.1) * 10, t);
+  for (let k = 0; k < 12; k++) {
+    const p = (t * 0.15 + k / 12) % 1;
+    fx.beginPath(); fx.arc(330 + Math.sin(k * 3 + t) * 20 + k * 6, H - p * H, 2 + (k % 3), 0, Math.PI * 2);
+    fx.strokeStyle = `rgba(200,255,250,${0.5 * (1 - p)})`; fx.lineWidth = 1.5; fx.stroke();
+  }
+  fx.font = '700 15px "JetBrains Mono", monospace'; fx.fillStyle = "rgba(232,235,244,.85)"; fx.textAlign = "left";
+  fx.fillText("PB  10 LB  LARGEMOUTH", 24, 36);
+  if (!reduce) requestAnimationFrame(fishDraw);
+}
+requestAnimationFrame(fishDraw);
+
+addEventListener("pointermove", e => {
+  document.body.style.setProperty("--mx", e.clientX + "px");
+  document.body.style.setProperty("--my", e.clientY + "px");
+  if (reduce) return;
+  chars.forEach(c => {
+    const r = c.getBoundingClientRect();
+    const d = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+    const w = Math.round(200 + 700 * Math.min(1, d / 400));
+    c.style.fontVariationSettings = `"wght" ${w}`;
+    c.style.color = d < 120 ? "var(--volt)" : "";
+  });
+});
+
+$("mail").addEventListener("click", () => {
+  const done = msg => { $("copied").textContent = msg; setTimeout(() => $("copied").textContent = "", 2500); };
+  if (navigator.clipboard) navigator.clipboard.writeText(CONFIG.email).then(() => done("Email copied"), () => done(CONFIG.email));
+  else done(CONFIG.email);
+});
+</script>
+</body>
+</html>
