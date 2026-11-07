@@ -101,6 +101,8 @@ h2{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size
 
 .stack{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px}
 .cell{background:var(--ink);padding:22px 20px;min-width:0}
+#stack-grid{grid-template-columns:repeat(5,1fr)}
+@media (max-width:860px){#stack-grid{grid-template-columns:repeat(2,1fr)}#stack-grid .cell:last-child{grid-column:1/-1}}
 .cell h3{margin:0 0 10px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--volt);font-weight:600}
 .cell p{margin:0;font-size:16px}
 
@@ -272,7 +274,7 @@ const CONFIG = {
   status: "Shipping Minecraft mods",
   tagline: "I build <em>tools that kill boring work</em>: AI that reads engineering drawings, scripts that turn messy spreadsheets into clean reports, and Roblox scripts and Minecraft mods that make games better.",
   email: "kushisoninternet@gmail.com",
-  ticker: ["Python", "Java", "Lua", "Minecraft modding", "Roblox scripting", "JavaScript", "Gemini AI", "Streamlit", "pandas", "Jupyter", "p5.js"],
+  ticker: ["Python", "Java", "Lua", "Minecraft modding", "Roblox scripting", "JavaScript", "Gemini AI", "Streamlit", "pandas", "Jupyter", "p5.js", "Robotics", "Soldering"],
   projects: [
     { year: "2026", name: "Clip It", tags: "Founder · Business", hue: 185, scene: "clip",
       desc: "My own business, started in 2026. Clip It fixes the irritation of wearing a school ID lanyard all day. I came up with the product, designed the brand, and pitched it." },
@@ -317,6 +319,7 @@ const CONFIG = {
     ["Languages", "Python, Java, Lua, JavaScript, HTML, CSS"],
     ["Data & AI", "pandas, Gemini API, Streamlit, Jupyter"],
     ["Games & Creative", "Roblox Lua scripting, Minecraft Fabric mods, p5.js"],
+    ["Hardware", "Soldering, robotics"],
     ["Tools", "Git, GitHub, VS Code, Excel automation"]
   ]
 };
